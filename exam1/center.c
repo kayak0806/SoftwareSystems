@@ -20,6 +20,23 @@ char *center(char *s, int n, char fillchar)
 {
     // FILL THIS IN
     //    return NULL;
+    size_t strsize = strlen(s);
+    char *centered = (char *) malloc(n);
+    int fillfirst = (n-strsize)/2;        //will round down
+    int filllast = (n-strsize)-fillfirst;  //add rest
+
+    int i;
+    for (i=0; i<fillfirst;i++){
+        strcpy(centered+i, &fillchar);
+    }
+    strcpy(centered+fillfirst,s);
+    for (i=0;i<filllast;i++){
+        strcpy(centered+fillfirst+strsize+i,&fillchar);
+    }
+
+    centered[n]='\0';
+
+    return centered;
 }
 
 
