@@ -112,7 +112,7 @@ int insert_by_index(Node **head, int val, int index) {
         push(head,val);
         return 0;
     }
-    int i = 1;
+    int i = 1   ;
     Node *before=*head;
     Node *after = before->next;
     while (i<index){
