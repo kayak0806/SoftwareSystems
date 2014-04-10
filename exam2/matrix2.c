@@ -168,6 +168,66 @@ double *row_sum(Matrix *A) {
 
    Feel free to use row_sum().
 */
+double *col_sum(Matrix *A) {
+    double total;
+    int i, j;
+
+    double *res = malloc(A->cols * sizeof(double));
+
+    for (i=0; i<A->cols; i++) {
+    total = 0.0;
+    for (j=0; j<A->rows; j++) {
+        total += A->data[j][i];
+    }
+    res[i] = total;
+    }
+    return res;
+}
+
+int is_magic_square(Matrix *m){
+    // Check: actually a square
+    // Check: rows, columns, diagonals
+    //  rows: row_sum, all same?, number
+    //  columns: make column_sum, column sum, all same?, same number?
+    //  diagonals: sum foward, same?, sum backwards, same?
+    // return 
+
+    double number;
+    int i,j;
+
+    if(m->rows != m->cols){ return 0; }
+
+    double * rows = row_sum(m);
+        number = rows[0];
+    for (i=1;i<m->rows;i++){
+        if(rows[i]!=number){ return 0; }
+    }
+
+    double *cols = col_sum(m);
+    for (i=0;i<m->cols;i++){
+        if(cols[i]!=number){ return 0; }
+    }
+
+    double diagF = 0.0;
+    double diagB = 0.0;
+
+    for (i=0;i<m->rows;i++){
+        diagF += m->data[i][i];
+    }
+    if (diagF!=number){ return 0; }
+
+    j = m->rows;
+    for (i=0;i<m->rows;i++){
+        for(j=m->rows-1;j>0;j--){
+            diagB+=m->data[i][j];
+        }
+    }
+
+    if (diagB!=number){ return 0; }
+
+    return 1;
+
+}
 
 
 int main() {
@@ -202,6 +262,10 @@ int main() {
 	printf("row %d\t%lf\n", i, sums[i]);
     }
     // should print 6, 22, 38
+
+    Matrix *M = make_matrix(3,3);
+    int magic = is_magic_square(M);
+    printf("is magic square? %i \n",magic);
 
     return 0;
 }
